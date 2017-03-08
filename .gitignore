@@ -1,4 +1,10 @@
 .idea/
 target/
 build/
+
 *.iml
+*.log
+
+src/main/resources/images/
+src/main/resources/parts/
+src/main/resources/texts/
