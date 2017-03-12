@@ -1,4 +1,4 @@
-package org.myas.victims.core;
+package org.myas.victims.core.extractor;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -38,11 +38,11 @@ public abstract class TesseractExtractor implements RecordExtractor {
 
     protected static final String IMG_DIR = "images";
     protected static final String PDF_DIR = "parts";
-    protected static final String TXT_DIR = "texts";
+    public static final String TXT_DIR = "texts";
 
     protected static final String IMG_PATTERN = "image-%s.png";
     protected static final String PDF_PATTERN = "part-%s.pdf";
-    protected static final String TXT_PATTERN = "text-%s.txt";
+    public static final String TXT_PATTERN = "text-%s.txt";
 
     protected static final String IMG_FORMAT = "png";
 
@@ -112,25 +112,6 @@ public abstract class TesseractExtractor implements RecordExtractor {
         }
 
         LOGGER.info("Finish extracting page {}", page);
-    }
-
-    protected OutputStream getFileOutputStream(String subPath, String fileName) throws IOException {
-        Path childPath = extractDirectory.resolve(Paths.get(subPath));
-        if (Files.notExists(childPath)) {
-            Files.createDirectory(childPath);
-        }
-        return Files.newOutputStream(Paths.get(childPath.toString(), fileName));
-    }
-
-    protected InputStream getFileInputStream(String subPath, String fileName) throws IOException {
-        Path path = Paths.get(extractDirectory.toString(), subPath, fileName);
-        return Files.newInputStream(path);
-    }
-
-    protected ByteArrayInputStream toInputStream(ByteArrayOutputStream outputStream) {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        outputStream.reset();
-        return inputStream;
     }
 
     public void setImageDpi(int imageDpi) {

@@ -1,4 +1,4 @@
-package org.myas.victims.core;
+package org.myas.victims.core.extractor;
 
 import java.io.IOException;
 

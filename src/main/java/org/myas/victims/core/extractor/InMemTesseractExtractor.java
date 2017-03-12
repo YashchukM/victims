@@ -1,7 +1,10 @@
-package org.myas.victims.core;
+package org.myas.victims.core.extractor;
 
 import static java.lang.Math.min;
 import static java.lang.String.format;
+
+import static org.myas.victims.core.helper.IOHelper.getFileOutputStream;
+import static org.myas.victims.core.helper.IOHelper.toInputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -53,7 +56,7 @@ public class InMemTesseractExtractor extends TesseractExtractor {
                 }
 
                 String fileName = format(TXT_PATTERN, format("%s_%s", sbPage, min(endPage, sbPage + filesInBatch)));
-                try (OutputStream outputStream = getFileOutputStream(TXT_DIR, fileName)) {
+                try (OutputStream outputStream = getFileOutputStream(extractDirectory, TXT_DIR, fileName)) {
                     batchOS.writeTo(outputStream);
                     batchOS.reset();
                 }

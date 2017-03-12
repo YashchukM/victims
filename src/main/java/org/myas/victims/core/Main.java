@@ -5,6 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.tika.exception.TikaException;
+import org.myas.victims.core.analyzer.PageAnalyzer;
+import org.myas.victims.core.extractor.QuickWriteTesseractExtrator;
+import org.myas.victims.core.extractor.TesseractExtractor;
 import org.xml.sax.SAXException;
 
 /**
@@ -12,13 +15,18 @@ import org.xml.sax.SAXException;
  */
 public class Main {
     private static final String VICTIMS_FILE = "holodomor.pdf";
-    private static final String RESOURCES_DIR = "D:\\ProjectsIDEA\\victims\\src\\main\\resources\\test";
+    private static final String RESOURCES_DIR = "D:\\ProjectsIDEA\\victims\\src\\main\\resources";
+    private static final String TEXTS_DIR = "D:\\ProjectsIDEA\\victims\\src\\main\\resources\\texts";
 
     // 60 - 829
     public static void main(String[] args) throws IOException, TikaException, SAXException {
-        Path path = Paths.get(RESOURCES_DIR, VICTIMS_FILE);
-        TesseractExtractor extractor = new QuickWriteTesseractExtrator(path);
+//        Path path = Paths.get(RESOURCES_DIR, VICTIMS_FILE);
+//        TesseractExtractor extractor = new QuickWriteTesseractExtrator(path);
 //        TesseractExtractor extractor = new InMemTesseractExtractor(path);
-        extractor.extract(820, 829);
+//        extractor.extract(820, 829);
+
+        Path path = Paths.get(TEXTS_DIR);
+        PageAnalyzer pageAnalyzer = new PageAnalyzer(path);
+        pageAnalyzer.analyze(60, 823);
     }
 }
