@@ -6,8 +6,7 @@ import java.nio.file.Paths;
 
 import org.apache.tika.exception.TikaException;
 import org.myas.victims.core.analyzer.PageAnalyzer;
-import org.myas.victims.core.extractor.QuickWriteTesseractExtrator;
-import org.myas.victims.core.extractor.TesseractExtractor;
+import org.myas.victims.core.domain.Region;
 import org.xml.sax.SAXException;
 
 /**
@@ -26,7 +25,7 @@ public class Main {
 //        extractor.extract(820, 829);
 
         Path path = Paths.get(TEXTS_DIR);
-        PageAnalyzer pageAnalyzer = new PageAnalyzer(path);
-        pageAnalyzer.analyze(60, 823);
+        PageAnalyzer pageAnalyzer = new PageAnalyzer(path, Region.VINNYTSYA);
+        pageAnalyzer.analyze(60, 70);
     }
 }

@@ -5,27 +5,17 @@ package org.myas.victims.core.domain;
  */
 public class Victim {
     private String name;
-    private String year;
     private String village;
     private String district;
     private String region;
 
-    private String fullRecord;
     private int bookNumber;
     private int pageNumber;
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("name:").append(name).append(',');
-        sb.append("year:").append(year).append(',');
-        sb.append("village:").append(village).append(',');
-        sb.append("district:").append(district).append(',');
-        sb.append("region:").append(region).append(',');
-        sb.append("fullRecord:").append(fullRecord).append(',');
-        sb.append("bookNumber:").append(bookNumber).append(',');
-        sb.append("pageNumber:").append(pageNumber);
-        return sb.toString();
+    private String fullRecord;
+
+    public Victim() {
+        this.bookNumber = 1;
     }
 
     public String getName() {
@@ -34,14 +24,6 @@ public class Victim {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
     }
 
     public String getRegion() {
@@ -90,5 +72,47 @@ public class Victim {
 
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("name:").append(name).append(',');
+        sb.append("village:").append(village).append(',');
+        sb.append("district:").append(district).append(',');
+        sb.append("region:").append(region).append(',');
+        sb.append("bookNumber:").append(bookNumber).append(',');
+        sb.append("pageNumber:").append(pageNumber).append(',');
+        sb.append("fullRecord:").append(fullRecord);
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Victim)) return false;
+
+        Victim victim = (Victim) o;
+
+        if (bookNumber != victim.bookNumber) return false;
+        if (pageNumber != victim.pageNumber) return false;
+        if (!name.equals(victim.name)) return false;
+        if (!village.equals(victim.village)) return false;
+        if (!district.equals(victim.district)) return false;
+        if (!region.equals(victim.region)) return false;
+        return fullRecord.equals(victim.fullRecord);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + village.hashCode();
+        result = 31 * result + district.hashCode();
+        result = 31 * result + region.hashCode();
+        result = 31 * result + bookNumber;
+        result = 31 * result + pageNumber;
+        result = 31 * result + fullRecord.hashCode();
+        return result;
     }
 }

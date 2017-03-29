@@ -8,3 +8,5 @@ build/
 src/main/resources/images/
 src/main/resources/parts/
 src/main/resources/texts/
+src/main/resources/analyzed/
+src/main/resources/unrecognized/
