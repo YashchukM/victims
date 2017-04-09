@@ -66,7 +66,7 @@ public class PageAnalyzer {
     }
 
     public PageAnalyzer(Path textsDir, Region region) {
-        this.textsDir = textsDir;
+        this(textsDir);
         this.region = region;
     }
 
@@ -148,6 +148,7 @@ public class PageAnalyzer {
             victim.setPageNumber(page);
             victim.setVillage(lastVillage);
             victim.setDistrict(lastDistrict);
+            victim.setRegion(region.toString());
             victim.setName(record.split(",")[0]);
             victims.add(victim);
 

@@ -25,7 +25,7 @@ public enum Region {
     MYKOLAIV("миколаївська"),
     ODESSA("одеська"),
     KHERSON("херсонська"),
-    DNIPRO("дніпровська"),
+    DNIPRO("дніпропетровська"),
     DONETSK("донецька"),
     ZAPORIZHIA("запорізька"),
     CRIMEA("АРК");
@@ -34,5 +34,10 @@ public enum Region {
 
     Region(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
