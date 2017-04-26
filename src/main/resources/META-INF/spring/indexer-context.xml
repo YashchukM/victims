@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:org/myas/victims/indexer/indexer.properties"/>
+
+    <bean id="esServer" class="org.myas.victims.search.server.RemoteESServer" init-method="initialize"
+          destroy-method="shutdown"/>
+
+    <bean id="esAdminManager" class="org.myas.victims.search.manager.ESAdminManager">
+        <constructor-arg name="client">
+            <bean factory-bean="esServer" factory-method="getClient"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="indexer" class="org.myas.victims.indexer.Indexer">
+        <constructor-arg name="threadsNumber" value="${indexer.parallelism}"/>
+        <constructor-arg name="bulkSize" value="${indexer.page.bulk.size}"/>
+        <constructor-arg name="esAdminManager" ref="esAdminManager"/>
+    </bean>
+</beans>

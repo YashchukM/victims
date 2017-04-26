@@ -192,4 +192,12 @@ public class PageAnalyzer {
     public void setRegion(Region region) {
         this.region = region;
     }
+
+    public Path getAnalyzeDir() {
+        return analyzeDir;
+    }
+
+    public Path getUnrecognizedDir() {
+        return unrecognizedDir;
+    }
 }
