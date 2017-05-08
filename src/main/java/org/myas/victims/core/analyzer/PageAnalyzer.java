@@ -3,7 +3,9 @@ package org.myas.victims.core.analyzer;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import static org.myas.victims.core.extractor.TesseractExtractor.TXT_PATTERN;
+import static org.myas.victims.core.helper.IOHelper.JSON_PATTERN;
+import static org.myas.victims.core.helper.IOHelper.RANGE_PATTERN;
+import static org.myas.victims.core.helper.IOHelper.TXT_PATTERN;
 import static org.myas.victims.core.helper.IOHelper.getFileInputStream;
 import static org.myas.victims.core.helper.IOHelper.getFileOutputStream;
 import static org.myas.victims.core.helper.Patterns.DISTRICT_PATTERN;
@@ -35,10 +37,8 @@ public class PageAnalyzer {
     private static final Logger LOGGER = LogManager.getLogger(PageAnalyzer.class);
     private static final String ANALYZE_DIR = "analyzed";
     private static final String UNRECOGNIZED_DIR = "unrecognized";
-    private static final String JSON_PATTERN = "text-%s.json";
 
     private static final String RECORD_SEPARATOR = "\n\n";
-    private static final String RANGE_SEPARATOR = "_";
 
     private static final String DEFAULT_DISTRICT = "DD";
     private static final String DEFAULT_VILLAGE = "DV";
@@ -76,8 +76,8 @@ public class PageAnalyzer {
         ObjectMapper objectMapper = new ObjectMapper();
         List<UnrecognizedRecord> unrecognized = new ArrayList<>();
         for (int page = startPage; page <= endPage; page++) {
-            try (InputStream is = getFileInputStream(textsDir, "", format(TXT_PATTERN, page));
-                 OutputStream os = getFileOutputStream(analyzeDir, "", format(JSON_PATTERN, page))) {
+            try (InputStream is = getFileInputStream(textsDir, format(TXT_PATTERN, page));
+                 OutputStream os = getFileOutputStream(analyzeDir, format(JSON_PATTERN, page))) {
                 String pageContent = IOUtils.toString(is, UTF_8);
                 List<Victim> victims = analyze(pageContent, page, unrecognized);
                 objectMapper.writeValue(os, victims);
@@ -86,8 +86,8 @@ public class PageAnalyzer {
             }
         }
 
-        String range = "" + startPage + RANGE_SEPARATOR + endPage;
-        try (OutputStream os = getFileOutputStream(unrecognizedDir, "", format(JSON_PATTERN, range))) {
+        String range = format(RANGE_PATTERN, startPage, endPage);
+        try (OutputStream os = getFileOutputStream(unrecognizedDir, format(JSON_PATTERN, range))) {
             objectMapper.writeValue(os, unrecognized);
         } catch (Exception e) {
             LOGGER.error(e);

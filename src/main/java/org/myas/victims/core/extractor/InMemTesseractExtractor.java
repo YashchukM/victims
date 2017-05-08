@@ -3,6 +3,8 @@ package org.myas.victims.core.extractor;
 import static java.lang.Math.min;
 import static java.lang.String.format;
 
+import static org.myas.victims.core.helper.IOHelper.TXT_DIR;
+import static org.myas.victims.core.helper.IOHelper.TXT_PATTERN;
 import static org.myas.victims.core.helper.IOHelper.getFileOutputStream;
 import static org.myas.victims.core.helper.IOHelper.toInputStream;
 
@@ -47,7 +49,7 @@ public class InMemTesseractExtractor extends TesseractExtractor {
                 for (int bPage = sbPage; (bPage < sbPage + filesInBatch) && (bPage <= endPage); bPage++) {
                     try {
                         extractPdf(pageOS, bPage);
-                        convertToImage(toInputStream(pageOS), pageOS, bPage, imageDpi);
+                        convertToImage(toInputStream(pageOS), pageOS, bPage);
                         extractText(toInputStream(pageOS), batchOS, bPage);
                     } catch (Exception e) {
                         LOGGER.error(e);

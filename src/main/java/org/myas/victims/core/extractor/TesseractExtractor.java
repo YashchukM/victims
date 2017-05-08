@@ -1,15 +1,12 @@
 package org.myas.victims.core.extractor;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,14 +32,6 @@ public abstract class TesseractExtractor implements RecordExtractor {
 
     private static final int DEFAULT_DPI = 300;
     private static final String DEFAULT_TESSERACT_LANGUAGE = "ukr";
-
-    protected static final String IMG_DIR = "images";
-    protected static final String PDF_DIR = "parts";
-    public static final String TXT_DIR = "texts";
-
-    protected static final String IMG_PATTERN = "image-%s.png";
-    protected static final String PDF_PATTERN = "part-%s.pdf";
-    public static final String TXT_PATTERN = "text-%s.txt";
 
     protected static final String IMG_FORMAT = "png";
 
@@ -90,14 +79,14 @@ public abstract class TesseractExtractor implements RecordExtractor {
         LOGGER.info("Finish recognizing page {}", page);
     }
 
-    protected void convertToImage(InputStream inputStream, OutputStream outputStream, int page, int dpi)
+    protected void convertToImage(InputStream inputStream, OutputStream outputStream, int page)
             throws IOException {
         LOGGER.info("Start converting page {} to image", page);
 
         try (PDDocument document = PDDocument.load(inputStream)) {
             PDFRenderer renderer = new PDFRenderer(document);
-            BufferedImage bim = renderer.renderImageWithDPI(0, dpi, ImageType.RGB);
-            ImageIOUtil.writeImage(bim, IMG_FORMAT, outputStream, dpi);
+            BufferedImage bim = renderer.renderImageWithDPI(0, imageDpi, ImageType.RGB);
+            ImageIOUtil.writeImage(bim, IMG_FORMAT, outputStream, imageDpi);
         }
 
         LOGGER.info("Finish converting page {} to image", page);

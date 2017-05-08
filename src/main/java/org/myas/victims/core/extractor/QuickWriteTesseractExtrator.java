@@ -2,6 +2,8 @@ package org.myas.victims.core.extractor;
 
 import static java.lang.String.format;
 
+import static org.myas.victims.core.helper.IOHelper.TXT_DIR;
+import static org.myas.victims.core.helper.IOHelper.TXT_PATTERN;
 import static org.myas.victims.core.helper.IOHelper.getFileOutputStream;
 import static org.myas.victims.core.helper.IOHelper.toInputStream;
 
@@ -32,7 +34,7 @@ public class QuickWriteTesseractExtrator extends TesseractExtractor {
                 try (OutputStream txtOS = getFileOutputStream(extractDirectory, TXT_DIR, format(TXT_PATTERN, page));
                      ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                     extractPdf(os, page);
-                    convertToImage(toInputStream(os), os, page, imageDpi);
+                    convertToImage(toInputStream(os), os, page);
                     extractText(toInputStream(os), txtOS, page);
                 } catch (Exception e) {
                     LOGGER.error(e);
