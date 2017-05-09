@@ -11,15 +11,43 @@
     <bean id="esServer" class="org.myas.victims.search.server.RemoteESServer" init-method="initialize"
           destroy-method="shutdown"/>
 
+    <bean id="esClient" factory-bean="esServer" factory-method="getClient"/>
+
     <bean id="esAdminManager" class="org.myas.victims.search.manager.ESAdminManager">
-        <constructor-arg name="client">
-            <bean factory-bean="esServer" factory-method="getClient"/>
-        </constructor-arg>
+        <constructor-arg name="client" ref="esClient"/>
     </bean>
+
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
     <bean id="indexer" class="org.myas.victims.indexer.Indexer">
         <constructor-arg name="threadsNumber" value="${indexer.parallelism}"/>
         <constructor-arg name="bulkSize" value="${indexer.page.bulk.size}"/>
+        <constructor-arg name="executionTimeout" value="3"/>
+        <constructor-arg name="executionTimeUnit" value="MINUTES"/>
         <constructor-arg name="esAdminManager" ref="esAdminManager"/>
+
+        <property name="victimIndex">
+            <bean class="org.myas.victims.search.index.JacksonIndex">
+                <constructor-arg name="client" ref="esClient"/>
+                <constructor-arg name="index" value="${indexer.index.victims.name}"/>
+                <constructor-arg name="type" value="${indexer.index.victims.type}"/>
+                <constructor-arg name="mapper" ref="objectMapper"/>
+                <constructor-arg name="idGenerator">
+                    <bean class="org.myas.victims.search.index.id.VictimIdGenerator"/>
+                </constructor-arg>
+            </bean>
+        </property>
+
+        <property name="unrecognizedIndex">
+            <bean class="org.myas.victims.search.index.JacksonIndex">
+                <constructor-arg name="client" ref="esClient"/>
+                <constructor-arg name="index" value="${indexer.index.unrecognized.name}"/>
+                <constructor-arg name="type" value="${indexer.index.unrecognized.type}"/>
+                <constructor-arg name="mapper" ref="objectMapper"/>
+                <constructor-arg name="idGenerator">
+                    <bean class="org.myas.victims.search.index.id.UnrecognizedIdGenerator"/>
+                </constructor-arg>
+            </bean>
+        </property>
     </bean>
 </beans>

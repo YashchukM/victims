@@ -31,7 +31,7 @@ public abstract class AbstractIndex<E> implements Index<E> {
 
     public AbstractIndex(String index, String type, Client client, IdGenerator<E> idGenerator) {
         this.index = Objects.requireNonNull(index);
-        this.type = Objects.requireNonNull(index);
+        this.type = Objects.requireNonNull(type);
         this.client = Objects.requireNonNull(client);
         this.idGenerator = Objects.requireNonNull(idGenerator);
     }
@@ -115,4 +115,12 @@ public abstract class AbstractIndex<E> implements Index<E> {
     protected abstract XContentType getContentType();
 
     protected abstract byte[] getSource(E element) throws IOException;
+
+    public String getIndex() {
+        return index;
+    }
+
+    public String getType() {
+        return type;
+    }
 }
