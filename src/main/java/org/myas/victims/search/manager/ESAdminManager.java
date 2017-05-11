@@ -53,4 +53,19 @@ public class ESAdminManager {
             LOGGER.error("Index {} failed to be created", indexName);
         }
     }
+
+    public void createIndex(String indexName) {
+        CreateIndexResponse indexResponse = client.admin().indices().prepareCreate(indexName)
+                .setSettings(Settings.builder()
+                        .put("index.number_of_shards", numberOfShards)
+                        .put("index.number_of_replicas", numberOfReplicas)
+                )
+                .get();
+
+        if (indexResponse.isAcknowledged()) {
+            LOGGER.info("Index {} has been successfully created", indexName);
+        } else {
+            LOGGER.error("Index {} failed to be created", indexName);
+        }
+    }
 }

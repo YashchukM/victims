@@ -13,4 +13,8 @@ public interface Index<E> {
     void delete(E element);
 
     void delete(List<? extends E> elements);
+
+    String getName();
+
+    String getType();
 }

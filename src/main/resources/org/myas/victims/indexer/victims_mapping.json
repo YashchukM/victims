@@ -1,0 +1,14 @@
+{
+  "mappings": {
+    "victim": {
+      "properties": {
+        "name": { "type": "text" },
+        "village": { "type": "keyword" },
+        "district": { "type": "keyword" },
+        "region": { "type": "keyword" },
+        "record": { "type": "text" },
+        "page": { "type": "long" }
+      }
+    }
+  }
+}

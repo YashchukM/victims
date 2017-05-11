@@ -9,7 +9,10 @@
     <context:property-placeholder location="classpath:org/myas/victims/indexer/indexer.properties"/>
 
     <bean id="esServer" class="org.myas.victims.search.server.RemoteESServer" init-method="initialize"
-          destroy-method="shutdown"/>
+          destroy-method="shutdown">
+        <constructor-arg name="clusterName" value="victims-elastic"/>
+        <constructor-arg name="elasticsearchUrl" value="54.201.61.253"/>
+    </bean>
 
     <bean id="esClient" factory-bean="esServer" factory-method="getClient"/>
 

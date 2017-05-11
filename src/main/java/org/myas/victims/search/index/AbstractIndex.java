@@ -116,10 +116,12 @@ public abstract class AbstractIndex<E> implements Index<E> {
 
     protected abstract byte[] getSource(E element) throws IOException;
 
-    public String getIndex() {
+    @Override
+    public String getName() {
         return index;
     }
 
+    @Override
     public String getType() {
         return type;
     }

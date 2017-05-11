@@ -57,6 +57,8 @@ public class Indexer {
 
     public void index(Path docsPath, int startDoc, int endDoc) throws InterruptedException {
         // TODO: create indices (where to place mappings)
+        esAdminManager.createIndex(victimIndex.getName());
+        esAdminManager.createIndex(unrecognizedIndex.getName());
 
         for (int startBulk = startDoc; startBulk < endDoc; startBulk += bulkSize) {
             int endBulk = min(startBulk + bulkSize, endDoc);
