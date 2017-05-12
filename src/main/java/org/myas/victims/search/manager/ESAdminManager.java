@@ -68,4 +68,6 @@ public class ESAdminManager {
             LOGGER.error("Index {} failed to be created", indexName);
         }
     }
+
+    // TODO: add indexExists() or/and createIfExists()
 }

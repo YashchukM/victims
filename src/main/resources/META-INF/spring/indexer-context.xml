@@ -10,8 +10,8 @@
 
     <bean id="esServer" class="org.myas.victims.search.server.RemoteESServer" init-method="initialize"
           destroy-method="shutdown">
-        <constructor-arg name="clusterName" value="victims-elastic"/>
-        <constructor-arg name="elasticsearchUrl" value="54.201.61.253"/>
+        <constructor-arg name="clusterName" value="${indexer.es.cluster.name}"/>
+        <constructor-arg name="elasticsearchUrl" value="${indexer.es.url}"/>
     </bean>
 
     <bean id="esClient" factory-bean="esServer" factory-method="getClient"/>
@@ -25,8 +25,8 @@
     <bean id="indexer" class="org.myas.victims.indexer.Indexer">
         <constructor-arg name="threadsNumber" value="${indexer.parallelism}"/>
         <constructor-arg name="bulkSize" value="${indexer.page.bulk.size}"/>
-        <constructor-arg name="executionTimeout" value="3"/>
-        <constructor-arg name="executionTimeUnit" value="MINUTES"/>
+        <constructor-arg name="executionTimeout" value="${indexer.es.execution.timeout}"/>
+        <constructor-arg name="executionTimeUnit" value="${indexer.es.execution.timeout.unit}"/>
         <constructor-arg name="esAdminManager" ref="esAdminManager"/>
 
         <property name="victimIndex">
