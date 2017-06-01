@@ -1,0 +1,3 @@
+function onBtnClick() {
+    prompt("Yep");
+};

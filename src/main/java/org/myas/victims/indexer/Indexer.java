@@ -8,12 +8,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.elasticsearch.client.Client;
 import org.myas.victims.core.analyzer.PageAnalyzer;
 import org.myas.victims.core.domain.Region;
 import org.myas.victims.core.domain.UnrecognizedRecord;
 import org.myas.victims.core.domain.Victim;
 import org.myas.victims.search.index.Index;
 import org.myas.victims.search.manager.ESAdminManager;
+import org.myas.victims.search.manager.ESSearchManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -52,7 +54,9 @@ public class Indexer {
         int startPage = Integer.parseInt(args[1]);
         int endPage = Integer.parseInt(args[2]);
 
-        indexer.index(docsPath, startPage, endPage);
+        ESSearchManager esSearchManager = new ESSearchManager(applicationContext.getBean(Client.class));
+        esSearchManager.searchVictims("гулі", "барський", "");
+//        indexer.index(docsPath, startPage, endPage);
     }
 
     public void index(Path docsPath, int startDoc, int endDoc) throws InterruptedException {
