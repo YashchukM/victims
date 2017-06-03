@@ -18,6 +18,8 @@ import org.myas.victims.search.manager.ESAdminManager;
 import org.myas.victims.search.manager.ESSearchManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Created by Mykhailo Yashchuk on 12.04.2017.
  */
@@ -54,9 +56,7 @@ public class Indexer {
         int startPage = Integer.parseInt(args[1]);
         int endPage = Integer.parseInt(args[2]);
 
-        ESSearchManager esSearchManager = new ESSearchManager(applicationContext.getBean(Client.class));
-        esSearchManager.searchVictims("гулі", "барський", "");
-//        indexer.index(docsPath, startPage, endPage);
+        indexer.index(docsPath, startPage, endPage);
     }
 
     public void index(Path docsPath, int startDoc, int endDoc) throws InterruptedException {
