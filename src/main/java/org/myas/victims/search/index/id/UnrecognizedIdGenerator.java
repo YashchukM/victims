@@ -1,5 +1,6 @@
 package org.myas.victims.search.index.id;
 
+import org.elasticsearch.common.UUIDs;
 import org.myas.victims.core.domain.UnrecognizedRecord;
 
 /**
@@ -8,6 +9,6 @@ import org.myas.victims.core.domain.UnrecognizedRecord;
 public class UnrecognizedIdGenerator implements IdGenerator<UnrecognizedRecord> {
     @Override
     public String generate(UnrecognizedRecord element) {
-        return null;
+        return UUIDs.base64UUID();
     }
 }

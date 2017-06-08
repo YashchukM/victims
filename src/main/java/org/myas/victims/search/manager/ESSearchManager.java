@@ -40,7 +40,8 @@ public class ESSearchManager {
         SearchResponse response = client.prepareSearch("victims")
                 .setTypes("victim")
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-                .setQuery(victimsSearchQuery(name, village, district))
+                .setQuery(victimsSearchQuery(name))
+                .setPostFilter(victimsSearchFilter(village, district))
                 .setFrom(0).setSize(DEFAULT_SIZE)
                 .get();
 
@@ -55,11 +56,16 @@ public class ESSearchManager {
         return victims;
     }
 
-    private BoolQueryBuilder victimsSearchQuery(String name, String village, String district) {
+    private BoolQueryBuilder victimsSearchQuery(String name) {
+        BoolQueryBuilder qb = boolQuery();
+        if (!StringUtils.isEmpty(name)) qb.must(matchQuery("name", name));
+        return  qb;
+    }
+
+    private BoolQueryBuilder victimsSearchFilter(String village, String district) {
         BoolQueryBuilder qb = boolQuery();
         if (!StringUtils.isEmpty(village)) qb.must(termQuery("village", village));
         if (!StringUtils.isEmpty(district)) qb.must(termQuery("district", district));
-        if (!StringUtils.isEmpty(name)) qb.must(matchQuery("name", name));
         return  qb;
     }
 }

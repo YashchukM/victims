@@ -1,5 +1,6 @@
 package org.myas.victims.search.index.id;
 
+import org.elasticsearch.common.UUIDs;
 import org.myas.victims.core.domain.Victim;
 
 /**
@@ -8,6 +9,6 @@ import org.myas.victims.core.domain.Victim;
 public class VictimIdGenerator implements IdGenerator<Victim> {
     @Override
     public String generate(Victim element) {
-        return null;
+        return UUIDs.base64UUID();
     }
 }
