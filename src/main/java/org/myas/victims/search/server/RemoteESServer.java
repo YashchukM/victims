@@ -4,6 +4,7 @@ import java.net.InetSocketAddress;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
@@ -62,8 +63,13 @@ public class RemoteESServer {
 
     public void shutdown() {
         if (client != null) {
-            client.close();
+            try {
+                client.close();
+            } catch (ElasticsearchException e) {
+                LOGGER.error(e);
+            } finally {
+                LOGGER.info("Elasticsearch cluster shut down");
+            }
         }
-        LOGGER.info("Elasticsearch cluster shut down");
     }
 }

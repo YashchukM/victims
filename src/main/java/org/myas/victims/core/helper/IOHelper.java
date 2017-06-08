@@ -1,13 +1,18 @@
 package org.myas.victims.core.helper;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * Created by Mykhailo Yashchuk on 11.03.2017.
@@ -51,5 +56,14 @@ public final class IOHelper {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         outputStream.reset();
         return inputStream;
+    }
+
+    public static String getResourceAsString(String name) throws IOException {
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(name)) {
+            if (inputStream == null) {
+                throw new FileNotFoundException(name);
+            }
+            return IOUtils.toString(inputStream, UTF_8);
+        }
     }
 }

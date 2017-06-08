@@ -1,6 +1,7 @@
 package org.myas.victims.web.config;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.elasticsearch.client.Client;
 import org.myas.victims.search.manager.ESSearchManager;
@@ -18,8 +19,6 @@ public class CommonBeansConfig {
     private static final String DEFAULT_ES_URL = "54.201.61.253";
     private static final String DEFAULT_ES_CLUSTER_NAME = "victims-elastic";
 
-    private ObjectMapper objectMapper;
-    private Client client;
     private RemoteESServer esServer;
     private ESSearchManager esSearchManager;
 
@@ -28,10 +27,12 @@ public class CommonBeansConfig {
         this.esServer = new RemoteESServer(DEFAULT_ES_URL, DEFAULT_ES_CLUSTER_NAME);
         this.esServer.initialize();
 
-        this.client = esServer.getClient();
-        this.objectMapper = new ObjectMapper();
+        this.esSearchManager = new ESSearchManager(esServer.getClient(), new ObjectMapper());
+    }
 
-        this.esSearchManager = new ESSearchManager(client, objectMapper);
+    @PreDestroy
+    public void destroy() {
+        this.esServer.shutdown();
     }
 
     @Bean

@@ -1,13 +1,21 @@
 {
-  "mappings": {
-    "victim": {
-      "properties": {
-        "name": { "type": "text" },
-        "village": { "type": "keyword" },
-        "district": { "type": "keyword" },
-        "region": { "type": "keyword" },
-        "record": { "type": "text" },
-        "page": { "type": "long" }
+  "unrecognized": {
+    "properties": {
+      "page": {
+        "type": "integer"
+      },
+      "record": {
+        "type": "text"
+      },
+      "victim": {
+        "properties": {
+          "name": { "type": "text" },
+          "village": { "type": "keyword" },
+          "district": { "type": "keyword" },
+          "region": { "type": "keyword" },
+          "record": { "type": "text" },
+          "page": { "type": "integer" }
+        }
       }
     }
   }

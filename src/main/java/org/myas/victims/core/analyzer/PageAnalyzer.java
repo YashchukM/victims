@@ -33,6 +33,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Created by Mykhailo Yashchuk on 11.03.2017.
  */
+// TODO: correct in parallel context
+// if run in parallel context, logic with lastRecord doesn't work correctly
+// because last values can be defined in other PageAnalyzer
 public class PageAnalyzer {
     private static final Logger LOGGER = LogManager.getLogger(PageAnalyzer.class);
     private static final String ANALYZE_DIR = "analyzed";
@@ -89,6 +92,7 @@ public class PageAnalyzer {
         String range = format(RANGE_PATTERN, startPage, endPage);
         try (OutputStream os = getFileOutputStream(unrecognizedDir, format(JSON_PATTERN, range))) {
             objectMapper.writeValue(os, unrecognized);
+            LOGGER.info("Finish analyzing texts from dir {} pages {}-{}", textsDir, startPage, endPage);
         } catch (Exception e) {
             LOGGER.error(e);
         }
